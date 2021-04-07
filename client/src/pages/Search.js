@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import CardList from "../components/Card";
 import Jumbotron from "../components/Jumbotron";
 import { Input, FormBtn } from "../components/Form";
-import API from "../utils/API"
+import API from "../utils/API";
 import { Card, Button } from "react-bootstrap";
 
 export default function Search() {
@@ -14,14 +14,13 @@ export default function Search() {
   };
 
   const handleFormSubmit = (event) => {
-      event.preventDefault();
-      API.googleBooks(query)
-      .then(response => setBooks(response.data.items));
-  }
+    event.preventDefault();
+    API.googleBooks(query).then((response) => setBooks(response.data.items));
+  };
 
   useEffect(() => {
-      console.log(books)
-  }, [books])
+    console.log(books);
+  }, [books]);
 
   return (
     <div className="search-div">
@@ -43,16 +42,27 @@ export default function Search() {
           </form>
         </div>
       </Jumbotron>
-      {books && books.map(book => (
-                <Card.Body>
-                <Card.Title>{book.volumeInfo.title}</Card.Title>
-                  <Card.Text>
-                    {book.volumeInfo.description}
-                  </Card.Text>
-                  <Button variant="primary">Save</Button>
-                </Card.Body>
-      ))}
-      <CardList/>
+      {books &&
+        books.map((book) => (
+          <Card.Body>
+            <div>
+              <Card.Title>{book.volumeInfo.title}</Card.Title>
+              <Button variant="primary">Save</Button>
+              <Button variant="success">View</Button>
+            </div>
+            <div>
+              <Card.Img
+                src={
+                  book.volumeInfo.imageLinks
+                    ? book.volumeInfo.imageLinks.smallThumbnail
+                    : "https://previews.123rf.com/images/pavelstasevich/pavelstasevich1811/pavelstasevich181101065/112815953-no-image-available-icon-flat-vector.jpg"
+                }
+              />
+              <Card.Text>{book.volumeInfo.description}</Card.Text>
+            </div>
+          </Card.Body>
+        ))}
+      <CardList />
     </div>
   );
 }
