@@ -1,18 +1,22 @@
-import './App.css';
+import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Search from "./pages/Search";
 import Save from "./pages/Save";
-import NavbarToggle from "./components/Nav"; 
+import NavbarToggle from "./components/Nav/index";
+import NoMatch from "./pages/NoMatch";
 
 function App() {
   return (
     <Router>
-    <NavbarToggle/>
-    <Route exact path="/" component={Search} />
-    <Route path="/edit" component={Save} />
-  </Router>
+      <NavbarToggle />
+      <Switch>
+        <Route exact path="/" component={Search} />
+        <Route path="/save" component={Save} />
+        <Route path="*" component={NoMatch} />
+      </Switch>
+    </Router>
   );
 }
 
