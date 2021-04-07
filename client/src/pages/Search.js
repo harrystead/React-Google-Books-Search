@@ -1,11 +1,10 @@
 import React from 'react';
-import { Col, Row, Container } from "../components/Grid";
-import Jumbotron from "../components/Jumbotron";
+import Intro from "../components/Intro"
 
 export default function Search() {
     return (
         <div>
-            
+            <Intro />
         </div>
     )
 }
