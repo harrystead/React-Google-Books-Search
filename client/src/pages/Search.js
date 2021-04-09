@@ -44,7 +44,7 @@ export default function Search() {
     API.saveBook(savedBook)
       .then(
         (response) => console.log(response),
-        setSuccess("book successfully saved")
+        setSuccess("book successfully saved.")
       )
       .catch((err) => console.log(err));
   };
