@@ -15,8 +15,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.use(routes);
-mongoose.connect(
-  "mongodb+srv://harry123:harryjack1214@cluster0.7trlh.mongodb.net/Library?retryWrites=true&w=majority",
+mongoose.connect(MONGODB_URL,
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 mongoose.connection.once("open", () => {
