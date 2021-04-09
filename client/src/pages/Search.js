@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import CardList from "../components/Card";
 import Jumbotron from "../components/Jumbotron";
 import { Input, FormBtn } from "../components/Form";
 import API from "../utils/API";
 import { Card, Button } from "react-bootstrap";
 
 export default function Search() {
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState();
   const [query, setQuery] = useState("");
 
   const changeSearch = (event) => {
@@ -15,17 +14,40 @@ export default function Search() {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    API.googleBooks(query).then((response) => setBooks(response.data.items));
-  };
-
-  useEffect(() => {
-    console.log(books);
-  }, [books]);
+    API.googleBooks(query).then((response) => {
+    if(response.data.items === "error") {
+      throw new Error(response.data.items);
+    }
+    else {
+      let results = response.data.items
+      results = results.map(result => {
+        result = {
+          key: result.id,
+          id: result.id,
+          title: result.volumeInfo.title,
+          authors: result.volumeInfo.authors,
+          description: result.volumeInfo.description,
+          image: result.volumeInfo.imageLinks,
+          link: result.volumeInfo.infoLink
+        }
+        return result;
+      })
+      setBooks(results);
+    }
+    });
+  }
+  
+  const saveBook = (event) => {
+    let savedBook = books.filter(book => book.id === event.target.id)
+    API.saveBook(savedBook)
+    .then((response) => console.log(response))
+    .catch(err => console.log(err))
+  }
 
   return (
     <div className="search-div">
       <Jumbotron>
-        <div>
+        <div className="google-search-intro">
           <h2>Google Books Search</h2>
           <h4>Search and Save a Book of Interest</h4>
         </div>
@@ -44,25 +66,39 @@ export default function Search() {
       </Jumbotron>
       {books &&
         books.map((book) => (
-          <Card.Body>
-            <div>
-              <Card.Title>{book.volumeInfo.title}</Card.Title>
-              <Button variant="primary">Save</Button>
-              <Button variant="success">View</Button>
-            </div>
-            <div>
-              <Card.Img
-                src={
-                  book.volumeInfo.imageLinks
-                    ? book.volumeInfo.imageLinks.smallThumbnail
-                    : "https://previews.123rf.com/images/pavelstasevich/pavelstasevich1811/pavelstasevich181101065/112815953-no-image-available-icon-flat-vector.jpg"
-                }
-              />
-              <Card.Text>{book.volumeInfo.description}</Card.Text>
-            </div>
-          </Card.Body>
+          <Card>
+            <Card.Body>
+              <div className="section-book">
+                <div>
+                  <Card.Title style={{ fontSize: "24px" }}>
+                    {book.title}
+                  </Card.Title>
+                  <Card.Text style={{ fontSize: "14px" }}>
+                    Written by {book.authors[0]}
+                  </Card.Text>
+                </div>
+                <div className="buttons">
+                  <Button id={book.id} onClick={saveBook} className="button-save" variant="primary">
+                    Save
+                  </Button>
+                  <Button className="button-view" variant="success">
+                    View
+                  </Button>
+                </div>
+              </div>
+              <div className="section-book">
+                <Card.Img
+                  style={{ width: "150px", height: "150px" }}
+                  src={book.image === undefined ? "https://previews.123rf.com/images/pavelstasevich/pavelstasevich1811/pavelstasevich181101065/112815953-no-image-available-icon-flat-vector.jpg" : book.image.thumbnail
+                  }
+                />
+                <Card.Text style={{ fontSize: "12px" }}>
+                  {book.description}
+                </Card.Text>
+              </div>
+            </Card.Body>
+          </Card>
         ))}
-      <CardList />
     </div>
   );
 }
