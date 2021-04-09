@@ -24,7 +24,6 @@ export default function Save() {
       <div className="saved-heading">
         <h3>Saved Books</h3>
       </div>
-      {console.log(savedBooks)}
       <div>
         <Saved savedBooks={savedBooks} deleteBook={deleteBook} />
       </div>

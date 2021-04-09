@@ -3,10 +3,13 @@ import Jumbotron from "../components/Jumbotron";
 import { Input, FormBtn } from "../components/Form";
 import API from "../utils/API";
 import CardList from "../components/Card";
+import { Alert } from "react-bootstrap";
+import { set } from "mongoose";
 
 export default function Search() {
   const [books, setBooks] = useState();
   const [query, setQuery] = useState("");
+  const [success, setSuccess] = useState("");
 
   const changeSearch = (event) => {
     setQuery(event.target.value);
@@ -39,13 +42,24 @@ export default function Search() {
   const saveBook = (event) => {
     let savedBook = books.filter((book) => book.id === event.target.id);
     API.saveBook(savedBook)
-      .then((response) => console.log(response))
+      .then(
+        (response) => console.log(response),
+        setSuccess("book successfully saved")
+      )
       .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSuccess("");
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [success]);
 
   return (
     <div className="search-div">
       <Jumbotron>
+        {success && <Alert variant="success">{success}</Alert>}
         <div className="google-search-intro">
           <h2>Google Books Search</h2>
           <h4>Search and Save a Book of Interest</h4>
@@ -63,7 +77,7 @@ export default function Search() {
           </form>
         </div>
       </Jumbotron>
-      <CardList books={books} saveBook={saveBook}/>
+      <CardList books={books} saveBook={saveBook} />
     </div>
   );
 }
