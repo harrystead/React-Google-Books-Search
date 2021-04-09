@@ -12,11 +12,11 @@ export default function Save() {
 
   const deleteBook = (event) => {
     const id = event.target.id;
+    window.location.reload();
     API.deleteBook(id)
       .then((deleted) => console.log(deleted))
       .then((err) => console.log(err));
     
-      window.location.reload();
   };
 
   return (
