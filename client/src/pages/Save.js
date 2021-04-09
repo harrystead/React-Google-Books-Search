@@ -14,7 +14,8 @@ export default function Save() {
     const id = event.target.id;
     window.location.reload();
     API.deleteBook(id)
-      .then((deleted) => console.log(deleted))
+      .then((deleted) => API.getBooks())
+      .then((response) => setSavedBooks(response.data))
       .then((err) => console.log(err));
     
   };
