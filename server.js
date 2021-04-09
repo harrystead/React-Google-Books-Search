@@ -21,6 +21,10 @@ mongoose.connection.once('open', () => {
   console.log(` 🚀 ==> MongoDB connection established successfully.`)
 });
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+}
+
 app.listen(PORT, function() {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });
