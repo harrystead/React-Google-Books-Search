@@ -17,3 +17,14 @@
     top: 10px;
     left:80%;
 }
+
+.input-search {
+    border-radius: 5px;
+    border: 1px solid grey;
+    padding: 2px;
+    margin-top: 7px;
+}
+
+.results-heading {
+    text-align: center;
+}

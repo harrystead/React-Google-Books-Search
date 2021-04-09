@@ -8,4 +8,5 @@ body {
     justify-content: center;
 }
 
-@import "./search.css"
+@import "./search.css";
+@import "./save.css";

@@ -59,25 +59,33 @@ export default function Search() {
   return (
     <div className="search-div">
       <Jumbotron>
-        {success && <Alert variant="success">{success}</Alert>}
         <div className="google-search-intro">
           <h2>Google Books Search</h2>
-          <h4>Search and Save a Book of Interest</h4>
+          <h5>Search and Save a Book of Interest</h5>
         </div>
         <div className="input-form">
           <form>
+            <div className="input-div">
             <Input
               name="search"
+              className="input-search"
               onChange={changeSearch}
               placeholder="Search books..."
             ></Input>
             <FormBtn className="btn-form" onClick={handleFormSubmit}>
               Search
             </FormBtn>
+            </div>
           </form>
         </div>
       </Jumbotron>
-      <CardList books={books} saveBook={saveBook} />
+      <div className="results-div"> 
+      {success && <Alert variant="success">{success}</Alert>}
+        <div>
+          <h4 className="results-heading">Results</h4>
+        </div>
+        <CardList books={books} saveBook={saveBook} />
+      </div>
     </div>
   );
 }

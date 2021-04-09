@@ -21,8 +21,8 @@ export default function Save() {
 
   return (
     <div className="saved-page">
-      <div className="saved-heading">
-        <h3>Saved Books</h3>
+      <div className="saved-div">
+        <h2 className="saved-heading">Saved Books</h2>
       </div>
       <div>
         <Saved savedBooks={savedBooks} deleteBook={deleteBook} />
