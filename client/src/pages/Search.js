@@ -15,34 +15,37 @@ export default function Search() {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     API.googleBooks(query).then((response) => {
-    if(response.data.items === "error") {
-      throw new Error(response.data.items);
-    }
-    else {
-      let results = response.data.items
-      results = results.map(result => {
-        result = {
-          key: result.id,
-          id: result.id,
-          title: result.volumeInfo.title,
-          authors: result.volumeInfo.authors,
-          description: result.volumeInfo.description,
-          image: result.volumeInfo.imageLinks,
-          link: result.volumeInfo.infoLink
-        }
-        return result;
-      })
-      setBooks(results);
-    }
+      if (response.data.items === "error") {
+        throw new Error(response.data.items);
+      } else {
+        let results = response.data.items;
+        results = results.map((result) => {
+          result = {
+            key: result.id,
+            id: result.id,
+            title: result.volumeInfo.title,
+            authors: result.volumeInfo.authors,
+            description: result.volumeInfo.description,
+            image: result.volumeInfo.imageLinks,
+            link: result.volumeInfo.infoLink,
+          };
+          return result;
+        });
+        setBooks(results);
+      }
     });
-  }
-  
+  };
+
   const saveBook = (event) => {
-    let savedBook = books.filter(book => book.id === event.target.id)
+    let savedBook = books.filter((book) => book.id === event.target.id);
     API.saveBook(savedBook)
-    .then((response) => console.log(response))
-    .catch(err => console.log(err))
-  }
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
+  };
+
+  const viewBook = (event) => {
+    console.log(event.target.id);
+  };
 
   return (
     <div className="search-div">
@@ -78,10 +81,15 @@ export default function Search() {
                   </Card.Text>
                 </div>
                 <div className="buttons">
-                  <Button id={book.id} onClick={saveBook} className="button-save" variant="primary">
+                  <Button
+                    id={book.id}
+                    onClick={saveBook}
+                    className="button-save"
+                    variant="primary"
+                  >
                     Save
                   </Button>
-                  <Button className="button-view" variant="success">
+                  <Button className="button-view" variant="success" href={book.link}>
                     View
                   </Button>
                 </div>
@@ -89,7 +97,10 @@ export default function Search() {
               <div className="section-book">
                 <Card.Img
                   style={{ width: "150px", height: "150px" }}
-                  src={book.image === undefined ? "https://previews.123rf.com/images/pavelstasevich/pavelstasevich1811/pavelstasevich181101065/112815953-no-image-available-icon-flat-vector.jpg" : book.image.thumbnail
+                  src={
+                    book.image === undefined
+                      ? "https://previews.123rf.com/images/pavelstasevich/pavelstasevich1811/pavelstasevich181101065/112815953-no-image-available-icon-flat-vector.jpg"
+                      : book.image.thumbnail
                   }
                 />
                 <Card.Text style={{ fontSize: "12px" }}>
