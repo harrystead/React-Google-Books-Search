@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Jumbotron from "../components/Jumbotron";
 import { Input, FormBtn } from "../components/Form";
 import API from "../utils/API";
-import Cardlist from "../components/Card";
 import CardList from "../components/Card";
 
 export default function Search() {
