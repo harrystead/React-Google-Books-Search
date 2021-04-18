@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.use(routes);
-mongoose.connect(MONGODB_URL,
+mongoose.connect(process.env.MONGODB_URL,
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 mongoose.connection.once("open", () => {

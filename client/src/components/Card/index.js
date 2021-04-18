@@ -4,9 +4,9 @@ import { Card, Button } from "react-bootstrap";
 export default function CardList({ books, saveBook}) {
   return (
     <>
-      {books &&
+      {books && books.length > 0 ?
         books.map((book) => (
-          <Card>
+          <Card key={book.key}>
             <Card.Body>
               <div className="section-book">
                 <div>
@@ -14,7 +14,7 @@ export default function CardList({ books, saveBook}) {
                     {book.title}
                   </Card.Title>
                   <Card.Text style={{ fontSize: "14px" }}>
-                    Written by {book.authors[0]}
+                    Written by {books.authors > 0 ? books.authors[0] : "N/A"}
                   </Card.Text>
                 </div>
                 <div className="buttons">
@@ -50,7 +50,8 @@ export default function CardList({ books, saveBook}) {
               </div>
             </Card.Body>
           </Card>
-        ))}
+        ))
+      : ""}
     </>
   );
 }
