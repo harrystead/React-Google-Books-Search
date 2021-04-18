@@ -14,7 +14,7 @@ export default function CardList({ books, saveBook}) {
                     {book.title}
                   </Card.Title>
                   <Card.Text style={{ fontSize: "14px" }}>
-                    Written by {books.authors > 0 ? books.authors[0] : "N/A"}
+                    Written by {book.authors !== undefined ? book.authors[0] : "N/A"}
                   </Card.Text>
                 </div>
                 <div className="buttons">
