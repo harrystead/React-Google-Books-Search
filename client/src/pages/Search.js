@@ -43,7 +43,7 @@ export default function Search() {
     let savedBook = books.filter((book) => book.id === event.target.id);
     API.saveBook(savedBook)
       .then((response) =>
-        response.status === 201
+        response.status === 200
           ? setSuccess("book successfully saved.")
           : setSuccess("")
       )
